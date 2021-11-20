@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;// 
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BallMain : MonoBehaviour
 {
@@ -58,8 +59,20 @@ public class BallMain : MonoBehaviour
 
 
 
+    private IEnumerator youWin()
+    {
+        transform.GetChild(2).gameObject.GetComponent<ParticleSystem>().Play();
+        yield return new WaitForSeconds(1f);
+        SceneManager.LoadScene(0);
+
+    }
 
 
+    public void startButtonxd0()
+    {
+        GetComponent<Rigidbody>().useGravity = true;
+        GameObject.Find("startxd").SetActive(false);
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -80,6 +93,7 @@ public class BallMain : MonoBehaviour
         }
         else
         {
+            StartCoroutine(youWin());
             Debug.Log("You winn!!");
         }
 
@@ -144,6 +158,7 @@ public class BallMain : MonoBehaviour
             
             
             Camera.main.transform.parent = transform;
+            Camera.main.transform.SetAsFirstSibling();
         }
         yield return null;
 
